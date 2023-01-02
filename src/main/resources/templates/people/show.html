@@ -6,5 +6,29 @@
 </head>
 <body>
   <p th:text="${person.getFullName() + ' ,' + person.getYearOfBirth()}">VALUE</p>
+
+<div th:if="${books.isEmpty()}">
+    <p>person don't take book</p>
+    <hr/>
+</div>
+
+  <div th:if="${!books.isEmpty()}">
+      <hr/>
+      <b>Books:</b>
+      <br/>
+      <table th:each="book : ${books}">
+          <tr>
+              <td>
+                  <span th:text="${book.getTitle() + ' ,' + book.getAuthor() + ' ,' + book.getYear()}">
+                        book
+                  </span>
+              </td>
+          </tr>
+      </table>
+      <hr/>
+  </div>
+
+
+
 </body>
 </html>
