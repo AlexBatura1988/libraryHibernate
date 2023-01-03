@@ -45,4 +45,20 @@ public class PeopleController {
         peopleService.save(person);
         return "redirect:/people";
     }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model,@PathVariable("id") int id){
+        model.addAttribute("person",peopleService.findOne(id));
+        return "people/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("person") @Valid Person person, BindingResult result,
+                         @PathVariable("id") int id){
+        if(result.hasErrors()){
+            return "people/edit";
+        }
+        peopleService.update(id,person);
+        return "redirect:/people";
+    }
 }

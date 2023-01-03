@@ -30,14 +30,25 @@ public class PeopleService {
         return foundPerson.orElse(null);
     }
 
+    @Transactional
+    public void save(Person person){
+        peopleRepository.save(person);
+    }
+
+    @Transactional
+    public void update(int id, Person updatedPerson){
+        updatedPerson.setId(id);
+        peopleRepository.save(updatedPerson);
+    }
+
+
     public List<Book> getBookByPersonId(int id){
         Optional<Person> person = peopleRepository.findById(id);
         Hibernate.initialize(person.get().getBooks());
         return person.get().getBooks();
     }
 
-    @Transactional
-    public void save(Person person){
-        peopleRepository.save(person);
-    }
+
+
+
 }
