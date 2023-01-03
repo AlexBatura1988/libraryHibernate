@@ -41,6 +41,10 @@ public class PeopleService {
         peopleRepository.save(updatedPerson);
     }
 
+    @Transactional
+    public void delete(int id){
+        peopleRepository.deleteById(id);
+    }
 
     public List<Book> getBookByPersonId(int id){
         Optional<Person> person = peopleRepository.findById(id);
