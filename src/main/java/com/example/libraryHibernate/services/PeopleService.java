@@ -35,4 +35,9 @@ public class PeopleService {
         Hibernate.initialize(person.get().getBooks());
         return person.get().getBooks();
     }
+
+    @Transactional
+    public void save(Person person){
+        peopleRepository.save(person);
+    }
 }
