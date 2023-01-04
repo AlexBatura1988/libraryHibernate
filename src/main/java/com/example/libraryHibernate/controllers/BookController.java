@@ -43,4 +43,10 @@ public class BookController {
         }
         return "books/show";
     }
+
+    @PatchMapping("/{id}/release")
+    public String release(@PathVariable("id") int id){
+        bookService.release(id);
+        return "redirect:/books/" + id;
+    }
 }
