@@ -15,5 +15,21 @@
 
 </div>
 
+<div th:if="${people}">
+    <span> Book free now. Which person assign book? </span>
+    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
+        <label for="person"> Choose person</label>
+        <select th:object="${person}" th:field="*{id}" id="person">
+            <option th:each="person :${people}" th:value="${person.getId()}" th:text="${person.getFullName()}">
+
+            </option>
+
+        </select>
+
+        <input type="submit" value="Assign Book"/>
+    </form>
+</div>
+<hr/>
+
 </body>
 </html>
