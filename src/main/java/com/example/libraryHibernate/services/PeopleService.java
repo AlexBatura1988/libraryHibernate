@@ -2,6 +2,7 @@ package com.example.libraryHibernate.services;
 
 import com.example.libraryHibernate.models.Book;
 import com.example.libraryHibernate.models.Person;
+import com.example.libraryHibernate.repositories.BooksRepository;
 import com.example.libraryHibernate.repositories.PeopleRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ import java.util.Optional;
 public class PeopleService {
     private final PeopleRepository peopleRepository;
 
+
     @Autowired
     public PeopleService(PeopleRepository peopleRepository) {
         this.peopleRepository = peopleRepository;
+
     }
 
     public List<Person> findAll(){
@@ -43,7 +46,15 @@ public class PeopleService {
 
     @Transactional
     public void delete(int id){
+        List<Book> books = getBookByPersonId(id);
+        if(!books.isEmpty()){
+            for(Book book : books){
+                book.setTakenAt(null);
+            }
+        }
         peopleRepository.deleteById(id);
+
+
     }
 
     public List<Book> getBookByPersonId(int id){
