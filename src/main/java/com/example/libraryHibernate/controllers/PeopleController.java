@@ -20,26 +20,26 @@ public class PeopleController {
     }
 
     @GetMapping
-    public String index(Model model){
-        model.addAttribute("people",peopleService.findAll());
-        return"people/index";
+    public String index(Model model) {
+        model.addAttribute("people", peopleService.findAll());
+        return "people/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
+    public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", peopleService.findOne(id));
-        model.addAttribute("books",peopleService.getBookByPersonId(id));
+        model.addAttribute("books", peopleService.getBookByPersonId(id));
         return "people/show";
     }
 
     @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person")Person person){
+    public String newPerson(@ModelAttribute("person") Person person) {
         return "people/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("person")@Valid Person person, BindingResult result){
-        if (result.hasErrors()){
+    public String create(@ModelAttribute("person") @Valid Person person, BindingResult result) {
+        if (result.hasErrors()) {
             return "people/new";
         }
         peopleService.save(person);
@@ -47,24 +47,33 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model,@PathVariable("id") int id){
-        model.addAttribute("person",peopleService.findOne(id));
+    public String edit(Model model, @PathVariable("id") int id) {
+        model.addAttribute("person", peopleService.findOne(id));
         return "people/edit";
     }
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult result,
-                         @PathVariable("id") int id){
-        if(result.hasErrors()){
+                         @PathVariable("id") int id) {
+        if (result.hasErrors()) {
             return "people/edit";
         }
-        peopleService.update(id,person);
+        peopleService.update(id, person);
         return "redirect:/people";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id){
+    public String delete(@PathVariable("id") int id) {
         peopleService.delete(id);
         return "redirect:/people";
     }
+
+//    //for Auth
+//    @GetMapping("/showUserInfo")
+//    public String showUserInfo() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+//        System.out.println(personDetails.getPerson());
+//        return "people/index";
+//    }
 }

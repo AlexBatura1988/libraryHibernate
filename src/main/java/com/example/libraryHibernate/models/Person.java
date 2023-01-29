@@ -20,9 +20,12 @@ public class Person {
     @Column(name = "full_name")
     private String fullName;
 
-    @Min(value = 1900,message = "year must be greater than 1990")
+    @Min(value = 1900, message = "year must be greater than 1990")
     @Column(name = "year_of_birth")
     private int yearOfBirth;
+
+    @Column(name = "password")
+    private String password;
 
     @OneToMany(mappedBy = "owner")
     private List<Book> books;
@@ -59,11 +62,30 @@ public class Person {
         this.yearOfBirth = yearOfBirth;
     }
 
+
     public List<Book> getBooks() {
         return books;
     }
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", yearOfBirth=" + yearOfBirth +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
