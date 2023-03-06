@@ -38,6 +38,12 @@ public class Person {
         this.yearOfBirth = yearOfBirth;
     }
 
+    public Person(String fullName, int yearOfBirth, String password) {
+        this.fullName = fullName;
+        this.yearOfBirth = yearOfBirth;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }
