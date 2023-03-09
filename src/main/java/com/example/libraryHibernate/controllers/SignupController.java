@@ -1,7 +1,7 @@
 package com.example.libraryHibernate.controllers;
 
 import com.example.libraryHibernate.models.Person;
-import com.example.libraryHibernate.models.UserDto;
+
 import com.example.libraryHibernate.services.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,24 +24,29 @@ public class SignupController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("user", new UserDto());
+        //model.addAttribute("user", new UserDto());
+        model.addAttribute("user", new Person());
         return "signup/index";
     }
 
     @PostMapping
     // TODO - add validation, extend the page (confirm pass, errors, etc), add general error box for existing users
-    public String registerUserAccount(@ModelAttribute("user") UserDto userDto) {
-        Optional<Person> person = this.peopleService.findByFullName(userDto.getFullName());
+    public String registerUserAccount(@ModelAttribute("user")@Valid Person person,BindingResult result) {
 
-        if(person.isPresent()){
+        if (result.hasErrors()) {
+            return "signup/index";
+        }
+        Optional<Person> person1 = this.peopleService.findByFullName(person.getFullName());
+
+        if(person1.isPresent()){
             // Replace this with a message in the UI
             throw new UsernameNotFoundException("User not found");
         }
 
-        Person p = new Person(userDto.getFullName(), userDto.getYearOfBirth(), userDto.getPassword());
+        Person p = new Person(person.getFullName(), person.getYearOfBirth(), person.getPassword());
         this.peopleService.save(p);
 
         // Redirect to a proper page
-        return "signup/index";
+        return "auth/login";
     }
 }

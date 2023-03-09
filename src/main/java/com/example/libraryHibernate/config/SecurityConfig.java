@@ -39,23 +39,33 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/login").permitAll()
+//                        .requestMatchers("/signup").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/signup").permitAll()
+//                        .requestMatchers(HttpMethod.GET, "/resources/static/**").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                .formLogin(loginForm -> loginForm
+//                        .loginPage("/auth/login")
+//                        .loginProcessingUrl("/process_login")
+//                );
+//
+//        return http.build();
+
         http
-                .csrf().disable()
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/signup").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/signup").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/resources/static/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(loginForm -> loginForm
-                        .defaultSuccessUrl("/", true)
-                );
+                // ...
+                .formLogin()
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/process_login")
+                .and();
+
 
 
         return http.build();
     }
-
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {
@@ -63,7 +73,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public static PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

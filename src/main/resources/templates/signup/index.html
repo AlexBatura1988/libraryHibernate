@@ -12,11 +12,15 @@
     <tr>
       <td>Full Name:</td>
       <td><input type='text' th:field="*{fullName}" value=''></td>
+      <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Full Name Error</div>
     </tr>
+    <br/>
     <tr>
       <td>Year of Birth:</td>
       <td><input type='number' th:field="*{yearOfBirth}" value=''></td>
+      <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error</div>
     </tr>
+    <br/>
     <tr>
       <td>Password:</td>
       <td><input type='password' th:field="*{password}" /></td>
